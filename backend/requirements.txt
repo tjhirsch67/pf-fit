@@ -11,6 +11,9 @@ passlib[bcrypt]==1.7.4
 bcrypt==4.0.1
 python-multipart==0.0.9
 email-validator==2.1.1
-anthropic==0.40.0
+# Floor (not ==) so pip resolves a current SDK with output_config structured
+# outputs + adaptive thinking + claude-opus-4-8 support. Pin the resolved
+# version after the first successful install.
+anthropic>=0.69.0
 httpx==0.27.2
 reportlab==4.1.0
