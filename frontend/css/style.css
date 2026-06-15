@@ -1,0 +1,268 @@
+/* PF Coach — concept demo. Visual system per Design.md.
+   Evoke the Planet Fitness world (friendly, inclusive, energetic) with NONE of its logos,
+   emblems, registered phrases, or custom typeface. Purple-led identity, yellow as a spark. */
+
+:root {
+  /* --- Brand (confirmed) --- */
+  --pf-purple: #A4278D;
+  --pf-yellow: #F9F72E;
+  --pf-black: #111111;
+  --pf-white: #FFFFFF;
+
+  /* --- Purple scale (derived) --- */
+  --purple-900: #4A1240;
+  --purple-800: #6E1A5E;
+  --purple-600: #A4278D;
+  --purple-300: #D98FCB;
+  --purple-100: #F3E0EF;
+  --purple-050: #FBF1F8;
+
+  /* --- Yellow scale (derived) --- */
+  --yellow-600: #D6D400;
+  --yellow-500: #F9F72E;
+  --yellow-100: #FCFBC2;
+
+  /* --- Neutrals --- */
+  --ink: #111111;
+  --ink-muted: #5F5E5A;
+  --ink-faint: #8E8D87;
+  --surface: #FFFFFF;
+  --surface-2: #F6F5F1;
+  --border: rgba(17, 17, 17, 0.12);
+  --border-strong: rgba(17, 17, 17, 0.22);
+
+  /* --- Semantic (Express Circuit traffic light) --- */
+  --go: #1D9E75;
+  --go-ink: #0F6E56;
+  --go-fill: #E4F4EE;
+  --rest: #E24B4A;
+  --rest-ink: #A32D2D;
+  --rest-fill: #FBE7E6;
+  --info: #378ADD;
+  --warn: #BA7517;
+
+  /* --- Type --- */
+  --font-display: "Poppins", "Montserrat", system-ui, sans-serif;
+  --font-body: "Inter", -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  /* --- Radius / shadow --- */
+  --r-card: 12px;
+  --r-input: 8px;
+  --r-pill: 999px;
+
+  --app-max: 480px;
+  --nav-h: 64px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ink: #F4F1F6;
+    --ink-muted: #B9B3BE;
+    --ink-faint: #837D8A;
+    --surface: #1A141C;
+    --surface-2: #120E14;
+    --border: rgba(244, 241, 246, 0.14);
+    --border-strong: rgba(244, 241, 246, 0.28);
+    --purple-600: #C964B4;     /* lift accents so they read on dark */
+    --purple-100: #2A1F2C;
+    --purple-050: #211924;
+    --go-fill: #11241D;
+    --rest-fill: #2A1413;
+  }
+}
+
+/* ─── Reset / base ─────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--ink);
+  background: var(--surface-2);
+  -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3 { font-family: var(--font-display); font-weight: 600; line-height: 1.25; margin: 0 0 8px; }
+h1 { font-size: 28px; } h2 { font-size: 22px; } h3 { font-size: 18px; font-weight: 500; }
+p { margin: 0 0 12px; }
+small { font-size: 13px; }
+a { color: var(--purple-600); text-decoration: none; }
+img { max-width: 100%; display: block; }
+
+/* ─── App shell ────────────────────────────────────────────────────────────── */
+#app {
+  max-width: var(--app-max);
+  margin: 0 auto;
+  min-height: 100vh;
+  background: var(--surface-2);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+.app-header {
+  position: sticky; top: 0; z-index: 20;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 16px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+.wordmark { font-family: var(--font-display); font-weight: 600; font-size: 18px; color: var(--purple-600); letter-spacing: -0.01em; }
+.wordmark .tag { font-size: 11px; color: var(--ink-faint); font-weight: 500; margin-left: 6px; text-transform: lowercase; }
+
+#view { flex: 1; padding: 16px 16px calc(var(--nav-h) + 24px); }
+
+/* ─── Bottom tab nav ───────────────────────────────────────────────────────── */
+.tabbar {
+  position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
+  width: 100%; max-width: var(--app-max); height: var(--nav-h);
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  background: var(--surface); border-top: 1px solid var(--border);
+  z-index: 30;
+}
+.tabbar a {
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px;
+  color: var(--ink-faint); font-size: 11px; font-weight: 500; text-decoration: none;
+  min-height: 44px;
+}
+.tabbar a.active { color: var(--purple-600); }
+.tabbar a svg { width: 22px; height: 22px; }
+.tabbar.hidden { display: none; }
+
+/* ─── Cards ────────────────────────────────────────────────────────────────── */
+.card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--r-card); padding: 16px; margin-bottom: 16px;
+}
+.card.flush { padding: 0; overflow: hidden; }
+.hero {
+  background: linear-gradient(135deg, var(--purple-800), var(--purple-600));
+  color: #fff; border: none;
+}
+.hero h1, .hero h2 { color: #fff; }
+.hero p { color: rgba(255, 255, 255, 0.88); }
+.muted { color: var(--ink-muted); }
+.faint { color: var(--ink-faint); }
+.center { text-align: center; }
+.stack > * + * { margin-top: 12px; }
+
+/* ─── Buttons ──────────────────────────────────────────────────────────────── */
+.btn {
+  font-family: var(--font-body); font-size: 16px; font-weight: 600;
+  min-height: 44px; padding: 0 20px; border-radius: var(--r-input);
+  border: 1px solid transparent; cursor: pointer; width: 100%;
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  transition: background 0.15s, border-color 0.15s, opacity 0.15s;
+}
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.btn-primary { background: var(--pf-purple); color: #fff; }
+.btn-primary:hover:not(:disabled) { background: var(--purple-800); }
+.btn-accent { background: var(--pf-yellow); color: var(--purple-800); }   /* use rarely */
+.btn-accent:hover:not(:disabled) { background: var(--yellow-600); }
+.btn-secondary { background: transparent; border-color: var(--border-strong); color: var(--ink); }
+.btn-secondary:hover:not(:disabled) { border-color: var(--purple-600); color: var(--purple-600); }
+.btn-sm { min-height: 38px; font-size: 14px; padding: 0 14px; width: auto; }
+.btn-row { display: flex; gap: 10px; }
+.btn-row .btn { width: 100%; }
+
+/* ─── Autonomy-mode pills (always show all three) ──────────────────────────── */
+.autonomy { display: flex; gap: 8px; }
+.autonomy .pill {
+  flex: 1; text-align: center; padding: 8px 6px; border-radius: var(--r-pill);
+  background: var(--surface-2); color: var(--ink-faint); font-size: 13px; font-weight: 500;
+  border: 1px solid var(--border);
+}
+.autonomy .pill.active { background: var(--purple-100); color: var(--purple-800); border-color: transparent; }
+
+/* ─── Badges / chips ───────────────────────────────────────────────────────── */
+.badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 3px 10px; border-radius: var(--r-pill); font-size: 12px; font-weight: 600;
+  background: var(--purple-100); color: var(--purple-800);
+}
+.badge.go { background: var(--go-fill); color: var(--go-ink); }
+.badge.anchor { background: var(--yellow-100); color: var(--purple-800); }
+.chip {
+  display: inline-block; padding: 4px 12px; border-radius: var(--r-pill);
+  background: var(--purple-050); color: var(--purple-800); font-weight: 600; font-size: 14px;
+}
+
+/* ─── Station card (the money shot) ────────────────────────────────────────── */
+.station .thumb {
+  position: relative; aspect-ratio: 16 / 9; background: var(--purple-100);
+  display: flex; align-items: center; justify-content: center;
+}
+.station .thumb .play {
+  width: 56px; height: 56px; border-radius: 50%; background: rgba(255,255,255,0.92);
+  display: flex; align-items: center; justify-content: center; color: var(--purple-600);
+}
+.station .body { padding: 16px; }
+.station .name { font-family: var(--font-display); font-weight: 600; font-size: 18px; margin-bottom: 8px; }
+
+/* ─── Traffic-light timer ──────────────────────────────────────────────────── */
+.timer {
+  border-radius: var(--r-pill); text-align: center; padding: 14px;
+  font-family: var(--font-display); font-weight: 600; font-size: 32px;
+  background: var(--go-fill); color: var(--go-ink);
+}
+.timer .label { display: block; font-size: 13px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; }
+.timer.rest { background: var(--rest-fill); color: var(--rest-ink); }
+
+/* ─── Streak / progress bar ────────────────────────────────────────────────── */
+.streak { display: flex; align-items: center; gap: 10px; }
+.streak .bar { flex: 1; height: 8px; border-radius: var(--r-pill); background: var(--surface-2); overflow: hidden; }
+.streak .bar > span { display: block; height: 100%; background: var(--go); border-radius: var(--r-pill); }
+
+/* ─── KPI tiles ────────────────────────────────────────────────────────────── */
+.tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.tile { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-card); padding: 14px; }
+.tile .num { font-family: var(--font-display); font-weight: 600; font-size: 26px; color: var(--purple-600); }
+.tile .lbl { font-size: 12px; color: var(--ink-muted); }
+
+/* ─── Forms ────────────────────────────────────────────────────────────────── */
+.field { margin-bottom: 14px; }
+.field label { display: block; font-size: 13px; font-weight: 600; color: var(--ink-muted); margin-bottom: 6px; }
+.input, select.input, textarea.input {
+  width: 100%; min-height: 44px; padding: 10px 12px; font-size: 16px; font-family: var(--font-body);
+  border: 1px solid var(--border-strong); border-radius: var(--r-input);
+  background: var(--surface); color: var(--ink);
+}
+.input:focus { outline: none; border-color: var(--purple-600); box-shadow: 0 0 0 3px var(--purple-100); }
+textarea.input { min-height: 90px; resize: vertical; }
+
+/* ─── Progress charts (flat, faint gridlines, no 3D) ──────────────────────── */
+.chart { width: 100%; height: auto; display: block; }
+.chart .grid { stroke: var(--border); stroke-width: 1; }
+.chart .trend { fill: none; stroke: var(--purple-600); stroke-width: 2.5; stroke-linejoin: round; stroke-linecap: round; }
+.chart .spark { fill: none; stroke: var(--purple-300); stroke-width: 1.5; }
+.chart .cardio { fill: none; stroke: var(--info); stroke-width: 2.5; }
+.chart .pr { fill: var(--go); }
+.chart .axis-lbl { fill: var(--ink-faint); font-size: 10px; font-family: var(--font-body); }
+
+/* ─── Chat (intake) ────────────────────────────────────────────────────────── */
+.chat { display: flex; flex-direction: column; gap: 10px; }
+.bubble { max-width: 84%; padding: 10px 14px; border-radius: 16px; font-size: 15px; line-height: 1.5; }
+.bubble.coach { align-self: flex-start; background: var(--surface); border: 1px solid var(--border); border-bottom-left-radius: 4px; }
+.bubble.me { align-self: flex-end; background: var(--purple-100); color: var(--purple-800); border-bottom-right-radius: 4px; }
+
+/* ─── List rows ────────────────────────────────────────────────────────────── */
+.row { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--border); }
+.row:last-child { border-bottom: none; }
+.row .grow { flex: 1; min-width: 0; }
+.row .name { font-weight: 600; }
+
+/* ─── Misc ─────────────────────────────────────────────────────────────────── */
+.notice { background: var(--yellow-100); color: var(--purple-800); border-radius: var(--r-input); padding: 12px 14px; font-size: 14px; font-weight: 500; }
+.spinner { width: 28px; height: 28px; border: 3px solid var(--purple-100); border-top-color: var(--purple-600); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 32px auto; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.toast {
+  position: fixed; bottom: calc(var(--nav-h) + 16px); left: 50%; transform: translateX(-50%);
+  background: var(--ink); color: var(--surface); padding: 12px 18px; border-radius: var(--r-pill);
+  font-size: 14px; font-weight: 500; z-index: 50; max-width: 90%;
+}
+
+:focus-visible { outline: 2px solid var(--purple-600); outline-offset: 2px; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+}

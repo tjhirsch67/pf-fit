@@ -1,0 +1,12 @@
+{
+  "name": "PF Coach — concept",
+  "short_name": "PF Coach",
+  "description": "A guided, rotating, progress-tracked training concept for the gym floor.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F6F5F1",
+  "theme_color": "#A4278D",
+  "icons": [
+    { "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}
