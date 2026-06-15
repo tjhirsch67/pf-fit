@@ -8,7 +8,15 @@ from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 
 from config import settings
-from routers import auth_router, clubs, me
+from routers import (
+    auth_router,
+    clubs,
+    intake,
+    me,
+    programs,
+    progress_router,
+    sessions,
+)
 
 app = FastAPI(title="PF Coach API", version="0.1.0")
 
@@ -36,6 +44,10 @@ async def security_headers(request: Request, call_next):
 app.include_router(auth_router.router)
 app.include_router(me.router)
 app.include_router(clubs.router)
+app.include_router(intake.router)
+app.include_router(programs.router)
+app.include_router(sessions.router)
+app.include_router(progress_router.router)
 
 
 @app.get("/")
