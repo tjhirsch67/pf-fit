@@ -1,0 +1,35 @@
+# ─── Python ──────────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+build/
+dist/
+
+# ─── Virtual environments ────────────────────────────────────────────────────
+.venv/
+venv/
+env/
+ENV/
+
+# ─── Environment / secrets ───────────────────────────────────────────────────
+.env
+.env.*
+!.env.example
+
+# ─── Editor / OS ─────────────────────────────────────────────────────────────
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# ─── Logs / local artifacts ──────────────────────────────────────────────────
+*.log
+*.sqlite3
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Stale duplicate of CLAUDE.md + Design.md
+files.zip
