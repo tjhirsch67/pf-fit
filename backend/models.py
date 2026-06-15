@@ -13,8 +13,6 @@ The PG ENUM types are created explicitly in the initial Alembic migration (``cre
 is ``False`` here so SQLAlchemy never tries to create/drop them implicitly).
 """
 
-import enum
-
 from sqlalchemy import (
     Boolean,
     CheckConstraint,
@@ -38,103 +36,26 @@ from sqlalchemy.orm import relationship
 
 from database import Base
 
-
-# ─── Enums (Schema.md §1) ──────────────────────────────────────────────────────
-
-class MeasurementType(str, enum.Enum):
-    selectorized = "selectorized"
-    plate_loaded = "plate_loaded"
-    smith = "smith"
-    cardio = "cardio"
-    circuit = "circuit"
-    functional = "functional"
-    bodyweight = "bodyweight"
-
-
-class AutonomyMode(str, enum.Enum):
-    guided = "guided"
-    coached = "coached"
-    self_directed = "self_directed"
-
-
-class MembershipTier(str, enum.Enum):
-    classic = "classic"
-    black_card = "black_card"
-
-
-class UserRole(str, enum.Enum):
-    member = "member"
-    admin = "admin"
-
-
-class RecordStatus(str, enum.Enum):
-    active = "active"
-    archived = "archived"
-    disabled = "disabled"
-
-
-class EquipmentCategory(str, enum.Enum):
-    cardio = "cardio"
-    strength = "strength"
-    functional = "functional"
-    circuit = "circuit"
-
-
-class StackUnit(str, enum.Enum):
-    pin_number = "pin_number"
-    lb = "lb"
-    kg = "kg"
-
-
-class WeightUnit(str, enum.Enum):
-    lb = "lb"
-    kg = "kg"
-
-
-class DistanceUnit(str, enum.Enum):
-    mi = "mi"
-    km = "km"
-    m = "m"
-
-
-class DifficultyLevel(str, enum.Enum):
-    beginner = "beginner"
-    intermediate = "intermediate"
-    advanced = "advanced"
-
-
-class SessionType(str, enum.Enum):
-    express_circuit = "express_circuit"
-    standard = "standard"
-
-
-class SessionStatus(str, enum.Enum):
-    planned = "planned"
-    in_progress = "in_progress"
-    completed = "completed"
-    skipped = "skipped"
-
-
-class SwapReason(str, enum.Enum):
-    unavailable = "unavailable"
-    occupied = "occupied"
-    preference = "preference"
-    other_club = "other_club"
-
-
-class MetricKind(str, enum.Enum):
-    est_1rm = "est_1rm"
-    volume_load = "volume_load"
-    distance = "distance"
-    duration = "duration"
-    none = "none"
-
-
-class MicroLoadKind(str, enum.Enum):
-    none = "none"
-    magnet = "magnet"
-    lever = "lever"
-    dial = "dial"
+# The domain enum vocabulary lives in enums.py (pure stdlib, no DB dependency) so the
+# logic engines can import it without pulling in SQLAlchemy. Re-exported here for callers
+# that do `from models import MeasurementType`, etc.
+from enums import (  # noqa: F401  (re-export)
+    AutonomyMode,
+    DifficultyLevel,
+    DistanceUnit,
+    EquipmentCategory,
+    MeasurementType,
+    MembershipTier,
+    MetricKind,
+    MicroLoadKind,
+    RecordStatus,
+    SessionStatus,
+    SessionType,
+    StackUnit,
+    SwapReason,
+    UserRole,
+    WeightUnit,
+)
 
 
 # ─── Helpers ───────────────────────────────────────────────────────────────────

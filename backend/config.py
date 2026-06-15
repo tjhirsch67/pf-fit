@@ -40,6 +40,13 @@ class Settings(BaseSettings):
     app_env: str = "development"
     cors_origins: str = "*"
 
+    # ─── Progress engine tuning (Schema.md §8.1 / §15) ─────────────────────────
+    # Calibration is intentionally loose — every metric is indexed to the exercise's own
+    # baseline, so only *consistency* matters, not real pounds. Tunable after real-world use.
+    notch_fraction: float = 0.5            # fractional pin step per unlabeled lever/magnet notch
+    default_nominal_plate_lb: float = 10.0  # fallback lb-per-pin-step when equipment lacks one
+    pattern_trend_halflife_days: int = 21   # recency weighting for the pattern-trend hero metric
+
     @property
     def cors_origins_list(self) -> List[str]:
         """CORS origins as a list. `*` (or empty) means allow all."""
