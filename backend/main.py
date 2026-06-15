@@ -9,10 +9,12 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from config import settings
 from routers import (
+    admin,
     auth_router,
     clubs,
     intake,
     me,
+    nutrition,
     programs,
     progress_router,
     sessions,
@@ -48,6 +50,8 @@ app.include_router(intake.router)
 app.include_router(programs.router)
 app.include_router(sessions.router)
 app.include_router(progress_router.router)
+app.include_router(nutrition.router)
+app.include_router(admin.router)
 
 
 @app.get("/")
