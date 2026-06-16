@@ -73,6 +73,18 @@ uvicorn main:app --reload
 
 ## Deployment
 
-- **Backend** → Railway (`Procfile`; set `NIXPACKS_PYTHON_VERSION=3.11`).
-- **Frontend** → Netlify.
-- **Database** → Railway PostgreSQL; run `alembic upgrade head` against it before first use.
+| Layer | URL |
+|---|---|
+| Frontend (PWA) | https://pf-fit.netlify.app |
+| Backend (API) | https://pf-fit-production.up.railway.app |
+| Repo | https://github.com/tjhirsch67/pf-fit |
+
+**Demo login:** `demo@pfcoach.app` / `demo1234` (or tap "explore the demo" on the login screen).
+
+- **Backend** → Railway. Builder: **Nixpacks**, Root Directory: `backend`, `NIXPACKS_PYTHON_VERSION=3.11`.
+  Env vars: `DATABASE_URL` (Postgres reference), `SECRET_KEY`, `ANTHROPIC_API_KEY`. The `Procfile`
+  runs `alembic upgrade head` on every boot. Seed once via a Pre-deploy Command
+  (`python scripts/seed.py --demo`), then clear it.
+- **Frontend** → Netlify. Publish directory: `frontend`, no build command. The API base lives in
+  `frontend/js/config.js`. `_headers` ships a CSP locked to the API origin.
+- **Database** → Railway PostgreSQL (migrations run automatically via the `Procfile`).
